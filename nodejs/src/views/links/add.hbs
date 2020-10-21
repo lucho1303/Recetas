@@ -1,0 +1,70 @@
+<div class="container p-4">
+    <div class="row">
+        <div class="col-md-4 mx-auto">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title text-uppercase">Nueva Receta</h3>
+                    <form action="/recetas/add" method="POST">
+                        <div class="form-group">
+                            <input type="text" class="form-control" name="title" placeholder="Titulo" autofocus>
+                        </div>
+                        <div class="form-group">
+                            <textarea name="description" rows="2" class="form-control"
+                                placeholder="Descripcion"></textarea>
+                        </div>
+                        <div class="form-group">
+                            <h5>Ingredientes:</h5>
+                        </div>
+                        <div class="form-group">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Nombre</th>
+                                        <th scope="col">Cantidad</th>
+                                        <th scope="col">Unidades</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {{#each ingredientes}}
+                                    <tr>
+                                        <td>
+                                            <div class="checkbox form-group">
+                                                <label class="form-check-label"><input type="checkbox" name="ing"
+                                                        value="{{name}}">{{name}}</label>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <input type="number" min="1" class="form-control" name="cant" placeholder="Cantidad">
+                                        </td>
+                                        <td>
+                                            <div class="input-group">
+                                                <select class="custom-select" id="inputGroupSelect" name="med"
+                                                    aria-label="Example select with button addon">
+                                                    <option value="0" selected>Medida</option>
+                                                    <option value="1">u</option>
+                                                    <option value="2">gr</option>
+                                                    <option value="3">ml</option>
+                                                    <option value="4">Cda</option>
+                                                    <option value="5">taza</option>
+                                                    <option value="6">lb</option>
+                                                    <option value="7">l</option>
+                                                </select>
+                                            </div>
+                                        </td>
+                                    </tr>
+
+                                    {{/each}}
+                                </tbody>
+                            </table>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success btn-block">
+                                Guardar
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

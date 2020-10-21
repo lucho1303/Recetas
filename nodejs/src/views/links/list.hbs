@@ -1,0 +1,31 @@
+<div class="container p-4">
+    <h1 class="text-center">Mis Recetas</h1>
+</div>
+<div class="container p-4">
+    <div class="row">
+        {{#each recetas}}
+            <div class="col-md-3">
+                <div class="card text-center">
+                    <div class="card-body">
+                        <a href="/recetas/{{id}}">
+                            <h3 class="card-title text-uppercase">
+                                {{title}}
+                            </h3>
+                        </a>
+                        <p class="m-2">{{description}}</p>
+                        <p>Creado : {{timeago created_at}}</p>
+                        <a href="/recetas/delete/{{id}}" class="btn btn-danger">Borrar Receta</a>
+                        <a href="/recetas/edit/{{id}}" class="btn btn-info">Editar</a>
+                    </div>
+                </div>
+            </div>
+        {{else}}
+            <div class="col-md-4 mx-auto">
+                <div class="card card-body text-center">
+                    <p>No hay recetas guardadas aun.</p>
+                    <a href="/recetas/add">Crear una receta</a>
+                </div>
+            </div>
+        {{/each}}
+    </div>
+</div>

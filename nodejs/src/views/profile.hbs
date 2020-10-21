@@ -1,0 +1,122 @@
+<div class="container main-secction p-4">
+    <div class="row">
+        <div class="row user-left-part p-4">
+            <div class="col-md-3 col-sm-3 col-xs-12 user-profil-part pull-left">
+                <div class="row ">
+                    <div class="col-md-12 col-md-12-sm-12 col-xs-12 user-image text-center">
+                        <img src="https://www.jamf.com/jamf-nation/img/default-avatars/generic-user-purple.png"
+                            class="rounded-circle">
+                    </div>
+                    <div class="col-md-12 col-sm-12 col-xs-12 user-detail-section1 text-center p-4">
+                        <div class="container p-1">
+                            <button class="btn btn-outline-info btn-block dropdown-toggle" type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Recetas
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/recetas/add">Añadir Receta</a>
+                                <a class="dropdown-item" href="/recetas">Mis Recetas</a>                                
+                            </div>
+                        </div>
+
+                        <div class="container p-1">
+                            <button class="btn btn-outline-info btn-block dropdown-toggle " type="button"
+                                id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                aria-expanded="false">
+                                Ingredientes
+                            </button>
+                            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                <a class="dropdown-item" href="/ingredientes/add">Añadir Ingredientes</a>
+                                <a class="dropdown-item" href="/ingredientes">Mis Ingredientes</a>                                
+                            </div>
+                        </div>
+
+
+                    </div>
+
+                </div>
+            </div>
+            <div class="col-md-9 col-sm-9 col-xs-12 pull-right profile-right-section p-4">
+                <div class="row profile-right-section-row">
+                    <div class="col-md-12 profile-header">
+                        <div class="row">
+                            <div class="col-md-8 col-sm-6 col-xs-6 profile-header-section1 pull-left">
+                                <h1 class="text-capitalize">{{user.nombre}} {{user.apellido}}</h1>
+                            </div>
+
+                        </div>
+                    </div>
+                    <div class="col-md-12 p-4">
+                        <div class="row">
+                            <div class="col-md-8">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="#profile" role="tab" data-toggle="tab"><i
+                                                class="fas fa-user-circle"></i> Perfil</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="#buzz" role="tab" data-toggle="tab"><i
+                                                class="fas fa-info-circle"></i> Información Detallada</a>
+                                    </li>
+                                </ul>
+
+                                <!-- Tab panes -->
+                                <div class="tab-content">
+                                    <div role="tabpanel" class="tab-pane fade show active p-4" id="profile">
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>Nombre</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p class="text-capitalize">{{user.nombre}} {{user.apellido}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>Email</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.correo}}</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-2">
+                                                <label>Username</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>{{user.username}}</p>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <div role="tabpanel" class="tab-pane fade p-4" id="buzz">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Recetas</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>1</p>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <label>Ingredientes</label>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <p>1</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
