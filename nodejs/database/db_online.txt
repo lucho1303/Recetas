@@ -1,0 +1,9 @@
+Database: dev_recetas_ol
+Username: dev_recetas_us
+Email: siulodnanref1303
+Password: Temporal
+host: db4free.net
+ip: 85.10.205.173
+
+
+heroku: siulodnanref1303@gmail.com
