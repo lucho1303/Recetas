@@ -30,8 +30,13 @@ router.post('/signin', isNotLoggedIn, (req, res, next) =>{
 });
 
 router.get('/profile', isLoggedIn, async(req, res) => {
-    //const num_recetas = await pool.query('SELECT COUNT(id)  ')
-    res.render('profile');
+    var recetas = await pool.query('SELECT COUNT(id) FROM recetas WHERE estado = 1 && user_id = ?', req.user.id);
+    recetas = Object.values(recetas[0]);
+    console.log(recetas);
+    var ingredientes = await pool.query('SELECT COUNT(id) FROM ingredientes WHERE  estado = 1 && user_id = ?', req.user.id);
+    ingredientes = Object.values(ingredientes[0]);
+    console.log(ingredientes);
+    res.render('profile',{recetas, ingredientes});
 });
 
 

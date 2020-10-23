@@ -6,9 +6,18 @@ const flash = require('connect-flash');
 const session = require('express-session');
 const MYSQLStore = require('express-mysql-session');
 const passport = require('passport');
+const multer = require('multer');
+const uuid = require('uuid');
 
 
-const {database} = require('./keys')
+const {database} = require('./keys');
+const storage = multer.diskStorage({
+    destination: path.join(__dirname, 'public/uploads'),
+    filename: (req, file, cb) => {
+        cb(null, uuid.v4() + path.extname(file.originalname).toLocaleLowerCase());
+        
+    }
+});
 
 // INICIALIZATIONS
 const app = express();
@@ -39,6 +48,20 @@ app.use(express.urlencoded({extended: false}));
 app.use(express.json());
 app.use(passport.initialize());
 app.use(passport.session());
+app.use(multer({
+    storage,
+    dest: path.join(__dirname, 'public/uploads'),
+    limits: {fileSize: 5000000},
+    fileFilter: (req, file, cb) => {
+        const filetypes = /jpeg|jpg|png|gif/;
+        const mimetype = filetypes.test(file.mimetype);
+        const extname = filetypes.test(path.extname(file.originalname));
+        if(mimetype && extname){
+            return cb(null, true);
+        }
+        cb("Error el archivo debe ser una imagen valida");
+    }
+}).single('image'));
 
 
 // GLOBAL VARIABLES 

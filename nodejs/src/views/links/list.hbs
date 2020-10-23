@@ -12,10 +12,11 @@
                                 {{title}}
                             </h3>
                         </a>
+                        <img src={{image}} class="card-img-top" width="100" height="150">
                         <p class="m-2">{{description}}</p>
                         <p>Creado : {{timeago created_at}}</p>
-                        <a href="/recetas/delete/{{id}}" class="btn btn-danger">Borrar Receta</a>
-                        <a href="/recetas/edit/{{id}}" class="btn btn-info">Editar</a>
+                        <a href="/recetas/delete/{{id}}" class="btn btn-danger"><i class="far fa-trash-alt"></i> Borrar</a>
+                        <a href="/recetas/edit/{{id}}" class="btn btn-info"><i class="far fa-edit"></i> Editar</a>
                     </div>
                 </div>
             </div>

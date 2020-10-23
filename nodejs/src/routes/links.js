@@ -2,6 +2,8 @@ const express = require('express');
 const router = express.Router();
 const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
+const multer = require('multer');
+const path = require('path');
 
 
 router.get('/add', isLoggedIn, async (req, res) => {
@@ -11,9 +13,8 @@ router.get('/add', isLoggedIn, async (req, res) => {
 
 router.post('/add', isLoggedIn, async (req, res) => {
     const { title, description, ing, cant, med } = req.body;
-
+    console.log(req.file);
     var sizeCant = Object.keys(cant).length;
-
     var j = 0;
     var ingrediente = '';
     for (let i = 0; i < sizeCant; i++) {
@@ -26,21 +27,24 @@ router.post('/add', isLoggedIn, async (req, res) => {
             }
         }
     }
+    console.log('/uploads/' + req.file.filename);
     const newReceta = {
         title,
         description,
         ingredientes: ingrediente,
         user_id: req.user.id,
+        image: '/uploads/' + req.file.filename,
         estado: 1
     };
     await pool.query('INSERT INTO recetas set ?', [newReceta]);
-
     req.flash('success', 'Receta Guardada Correctamente');
     res.redirect('/recetas');
 });
 
 router.get('/', isLoggedIn, async (req, res) => {
     const recetas = await pool.query('SELECT * FROM recetas WHERE estado = 1 && user_id = ?',[req.user.id]);
+    
+    //console.log(recetas);
     res.render('links/list', { recetas });
 });
 
@@ -77,7 +81,6 @@ router.get('/:id', async(req, res) =>{
         });      
     });
     const receta = recetas[0];
-    console.log(receta.ingredientes);
     res.render('links/read', {receta} );
     
 });

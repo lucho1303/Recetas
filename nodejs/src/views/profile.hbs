@@ -12,7 +12,7 @@
                             <button class="btn btn-outline-info btn-block dropdown-toggle" type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                Recetas
+                                <i class="fas fa-book-open"></i> Recetas
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/recetas/add">Añadir Receta</a>
@@ -24,7 +24,7 @@
                             <button class="btn btn-outline-info btn-block dropdown-toggle " type="button"
                                 id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                 aria-expanded="false">
-                                Ingredientes
+                                <i class="fas fa-pepper-hot"></i> Ingredientes
                             </button>
                             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                 <a class="dropdown-item" href="/ingredientes/add">Añadir Ingredientes</a>
@@ -60,8 +60,6 @@
                                                 class="fas fa-info-circle"></i> Información Detallada</a>
                                     </li>
                                 </ul>
-
-                                <!-- Tab panes -->
                                 <div class="tab-content">
                                     <div role="tabpanel" class="tab-pane fade show active p-4" id="profile">
                                         <div class="row">
@@ -96,7 +94,7 @@
                                                 <label>Recetas</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>1</p>
+                                                <p>{{recetas}}</p>
                                             </div>
                                         </div>
                                         <div class="row">
@@ -104,7 +102,7 @@
                                                 <label>Ingredientes</label>
                                             </div>
                                             <div class="col-md-6">
-                                                <p>1</p>
+                                                <p>{{ingredientes}}</p>
                                             </div>
                                         </div>
                                     </div>
