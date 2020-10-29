@@ -7,3 +7,5 @@ ip: 85.10.205.173
 
 
 heroku: siulodnanref1303@gmail.com
+
+cludinary cloud: dev_recetas_imgs //lucho1303

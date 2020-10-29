@@ -20,12 +20,12 @@ router.post('/add', isLoggedIn, async(req, res) =>{
 });
 
 router.get('/', isLoggedIn, async(req, res) =>{
-    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1 && user_id = ?', [req.user.id]);
+    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1 && user_id = ? ORDER BY name', [req.user.id]);
     res.render('ingredientes/list', {ingredientes});
 });
 
 router.get('/all', async(req, res) =>{
-    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1');
+    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1 ORDER BY name');
     res.render('ingredientes/all', {ingredientes});
 });
 

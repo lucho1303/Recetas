@@ -8,6 +8,7 @@ const MYSQLStore = require('express-mysql-session');
 const passport = require('passport');
 const multer = require('multer');
 const uuid = require('uuid');
+const cloudinary = require('cloudinary');
 
 
 const {database} = require('./keys');
@@ -15,13 +16,18 @@ const storage = multer.diskStorage({
     destination: path.join(__dirname, 'public/uploads'),
     filename: (req, file, cb) => {
         cb(null, uuid.v4() + path.extname(file.originalname).toLocaleLowerCase());
-        
+
     }
 });
 
 // INICIALIZATIONS
 const app = express();
 require('./lib/passport');
+cloudinary.config({
+  cloud_name: 'ideasparacocinar',
+  api_key: '453471664738468',
+  api_secret: 'PYiOVHS-JaqRfd9IrhNKQjlBoQo'
+});
 
 // SETTINGS
 app.set('port', process.env.PORT || 4000);
@@ -64,7 +70,7 @@ app.use(multer({
 }).single('image'));
 
 
-// GLOBAL VARIABLES 
+// GLOBAL VARIABLES
 app.use((req,res,next)=>{
     app.locals.success = req.flash('success');
     app.locals.message = req.flash('message');

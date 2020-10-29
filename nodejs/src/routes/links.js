@@ -4,16 +4,17 @@ const pool = require('../database');
 const { isLoggedIn } = require('../lib/auth');
 const multer = require('multer');
 const path = require('path');
+const cloudinary = require('cloudinary');
 
 
 router.get('/add', isLoggedIn, async (req, res) => {
-    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1');
+    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1 ORDER BY name');
     res.render('links/add', { ingredientes });
 });
 
 router.post('/add', isLoggedIn, async (req, res) => {
     const { title, description, ing, cant, med } = req.body;
-    console.log(req.file);
+    //console.log(req.file);
     var sizeCant = Object.keys(cant).length;
     var j = 0;
     var ingrediente = '';
@@ -27,13 +28,13 @@ router.post('/add', isLoggedIn, async (req, res) => {
             }
         }
     }
-    console.log('/uploads/' + req.file.filename);
+    const result = await cloudinary.v2.uploader.upload(req.file.path);
     const newReceta = {
         title,
         description,
         ingredientes: ingrediente,
         user_id: req.user.id,
-        image: '/uploads/' + req.file.filename,
+        image: result.secure_url,
         estado: 1
     };
     await pool.query('INSERT INTO recetas set ?', [newReceta]);
@@ -43,7 +44,6 @@ router.post('/add', isLoggedIn, async (req, res) => {
 
 router.get('/', isLoggedIn, async (req, res) => {
     const recetas = await pool.query('SELECT * FROM recetas WHERE estado = 1 && user_id = ?',[req.user.id]);
-    
     //console.log(recetas);
     res.render('links/list', { recetas });
 });
@@ -56,7 +56,7 @@ router.get('/all', async(req, res) =>{
             if(receta.user_id == autor.id){
                 receta.user_id = autor.username;
             }
-        });      
+        });
     });
     res.render('links/all', { recetas });
 });
@@ -78,48 +78,66 @@ router.get('/:id', async(req, res) =>{
                 receta.user_id = autor.username;
                 receta.ingredientes = receta.ingredientes.trim();
             }
-        });      
+        });
     });
     const receta = recetas[0];
     res.render('links/read', {receta} );
-    
+
 });
 
 router.get('/edit/:id', isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const recetas = await pool.query('SELECT * FROM recetas WHERE id = ?', [id]);
-    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1');
+    const ingredientes = await pool.query('SELECT * FROM ingredientes WHERE estado = 1 ORDER BY name');
     res.render('links/edit', { receta: recetas[0], ingredientes});
 });
 
 router.post('/edit/:id', isLoggedIn, async (req, res) => {
     const { id } = req.params;
     const { title, description, ing, cant, med } = req.body;
-    console.log('ingredientes del form: ',ing);
-    var sizeCant = Object.keys(cant).length;
-
-    var j = 0;
+    var result = '';
     var ingrediente = '';
-    for (let i = 0; i < sizeCant; i++) {
-        if (cant[i] != '') {
-            var aux = getMedida(med[i]);
-            if (aux != 'undefined') {
-                var aux1 = '';
-                if(ing[j].length <= 1){
-                    aux1 = ing;
-                }
-                else{
-                    aux1 = ing[j];
-                }
-                ingrediente += cant[i] + ' ' + aux + ' de ' + aux1 + '\r\n';
-                j++;
-            }
-        }
+    //leo la receta y los ingredientes originales
+    const recetas = await pool.query('SELECT * FROM recetas WHERE id = ?', [id]);
+    console.log('ingredientes del form: ',ing);
+    if(req.file == undefined){
+      //comprueba si no sube una imagen nueva se asigna antiguo path
+      result = recetas[0].image;
+    }else{
+      //caso contrario se asigna el nuevo path a la receta
+      result = await cloudinary.v2.uploader.upload(req.file.path);
+      result = result.secure_url;
     }
-    console.log(ingrediente);
+    if(ing == undefined){
+      //si no sellecciona ningun ingrediente se guarda los ingredientes antiguos
+      //que se seleccionaron al crear la receta
+      console.log('no selecciono ningun ingrediente' );
+      ingrediente = recetas[0].ingredientes;
+    }else{
+      //se concatenan las cantidades con los nuevos ingredientes y medidas
+      var sizeCant = Object.keys(cant).length;
+      var j = 0;
+      for (let i = 0; i < sizeCant; i++) {
+          if (cant[i] != '') {
+              var aux = getMedida(med[i]);
+              if (aux != 'undefined') {
+                  var aux1 = '';
+                  if(ing[j].length <= 1){
+                      aux1 = ing;
+                  }
+                  else{
+                      aux1 = ing[j];
+                  }
+                  ingrediente += cant[i] + ' ' + aux + ' de ' + aux1 + '\r\n';
+                  j++;
+              }
+          }
+      }
+    }
     const newReceta = {
         title,
         description,
+        image: result,
         ingredientes: ingrediente
     };
     await pool.query('UPDATE recetas set ? WHERE id = ?', [newReceta, id]);
