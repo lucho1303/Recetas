@@ -5,14 +5,14 @@
     <div class="row">
         {{#each recetas}}
             <div class="col-md-3">
-                <div class="card text-center">
+                <div class="card text-center animated animate__fadeInDown">
                     <div class="card-body">
                         <a href="/recetas/{{id}}">
                             <h3 class="card-title text-uppercase">
                                 {{title}}
                             </h3>
                         </a>
-                        <img src={{image}} class="card-img-top" width="100" height="150">                        
+                        <img src={{image}} class="card-img-top" width="100" height="150">
                         <p>Creado: {{timeago created_at}}</p>
                         <p>Autor: {{user_id}}</p>
                     </div>
