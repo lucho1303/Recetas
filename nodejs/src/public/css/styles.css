@@ -1,6 +1,8 @@
 body{
     background: #f5f6f5;
     font-family: 'Oswald', sans-serif ;
+    padding: 0;
+    margin: 0;
 }
 
 .index{
